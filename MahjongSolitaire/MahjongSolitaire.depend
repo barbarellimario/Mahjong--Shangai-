@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1770814655 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\listatessere.c
+	<stdio.h>
+	<stdlib.h>
+	"ListaTessere.h"
+
+1770814656 c:\users\mario\documents\github\mahjong\mahjongsolitaire\listatessere.h
+	<stdbool.h>
+	"Tessera.h"
+
+1770814657 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.h
+	<stdbool.h>
+
+1770814653 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"Tessera.h"
+	"ListaTessere.h"
+	"Tavolo.h"
+
+1770814655 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.h
+	<stdbool.h>
+	"Tessera.h"
+	"ListaTessere.h"
+
+1770814656 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.c
+	<stdio.h>
+	<stdlib.h>
+	"Tessera.h"
+
