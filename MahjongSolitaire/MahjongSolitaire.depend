@@ -29,3 +29,16 @@
 	<stdlib.h>
 	"Tessera.h"
 
+1770815968 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"Tavolo.h"
+
+1770923543 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\stack.c
+	<stdlib.h>
+	"Stack.h"
+
+1770923543 c:\users\mario\documents\github\mahjong\mahjongsolitaire\stack.h
+	<stdbool.h>
+

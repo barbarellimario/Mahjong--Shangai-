@@ -5,7 +5,8 @@
 #include "Tessera.h"
 #include "ListaTessere.h"
 #include "Tavolo.h"
-
+#include "Stack.h"
+#define DIM 10
 
 void creaTessereIniziali(ListaTessere* lista) {
     int tipo, valore, copia;
@@ -20,19 +21,22 @@ void creaTessereIniziali(ListaTessere* lista) {
     }
 }
 
-
+/* Menu principale */
 void stampaMenu() {
     puts("\n=== MAHJONG SOLITAIRE ===");
     puts("1. Nuova partita");
     puts("2. Mossa (rimuovi coppia)");
+    puts("3. Undo ultima mossa");
     puts("0. Esci");
     printf("> ");
 }
+
 
 int main() {
 
     Tavolo tavolo;
     ListaTessere lista = creaLista();
+    Stack stackMosse = creaStack();
 
     bool partitaAttiva = false;
     int scelta;
@@ -56,6 +60,9 @@ int main() {
 
                 distribuisciTessere(&tavolo, &lista);
 
+                distruggiStack(&stackMosse);
+                stackMosse = creaStack();
+
                 partitaAttiva = true;
                 stampaTavolo(&tavolo);
                 break;
@@ -77,6 +84,12 @@ int main() {
                 x2--; y2--;
 
                 if (rimuoviCoppia(&tavolo, x1, y1, x2, y2)) {
+
+                    Mossa m;
+                    m.x1 = x1; m.y1 = y1;
+                    m.x2 = x2; m.y2 = y2;
+
+                    push(&stackMosse, m);
                     printf("Coppia rimossa!\n");
                 } else {
                     printf("Mossa non valida!\n");
@@ -86,9 +99,30 @@ int main() {
                 break;
             }
 
+            case 3: {
+                if (!partitaAttiva) {
+                    printf("Nessuna partita attiva!\n");
+                    break;
+                }
+
+                Mossa m;
+                if (pop(&stackMosse, &m)) {
+                    tavolo.celle[m.x1][m.y1]->rimossa = false;
+                    tavolo.celle[m.x2][m.y2]->rimossa = false;
+                    printf("Ultima mossa annullata.\n");
+                } else {
+                    printf("Nessuna mossa da annullare.\n");
+                }
+
+                stampaTavolo(&tavolo);
+                break;
+            }
+
+
             case 0:
                 printf("Grazie per aver giocato!\n");
                 distruggiLista(&lista);
+                distruggiStack(&stackMosse);
                 exit(0);
 
             default:
