@@ -29,9 +29,14 @@ bool caricaPartita(const char* filename, Tavolo* tavolo, Stack* stack) {
     distruggiStack(stack);
     *stack = creaStack();
 
-    Mossa m;
-    while (fread(&m, sizeof(Mossa), 1, f) == 1) {
-        push(stack, m);
+    Mossa mosse[500];
+    int count = 0;
+    while (fread(&mosse[count], sizeof(Mossa), 1, f) == 1) {
+        count++;
+    }
+
+    for (int i = count - 1; i >= 0; i--) {
+        push(stack, mosse[i]);
     }
 
     fclose(f);
