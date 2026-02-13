@@ -71,11 +71,9 @@ bool tesseraLibera(const Tavolo* t, int x, int y) {
     if (t->celle[x][y] == NULL || t->celle[x][y]->rimossa)
         return false;
 
-    /* lato sinistro libero */
     if (y == 0 || t->celle[x][y - 1] == NULL || t->celle[x][y - 1]->rimossa)
         return true;
 
-    /* lato destro libero */
     if (y == COLONNE - 1 || t->celle[x][y + 1] == NULL || t->celle[x][y + 1]->rimossa)
         return true;
 

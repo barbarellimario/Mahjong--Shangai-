@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 #include "Tessera.h"
 #include "ListaTessere.h"
 #include "Tavolo.h"
 #include "Stack.h"
+#include "Salvataggio.h"
 #define DIM 10
 
 void creaTessereIniziali(ListaTessere* lista) {
@@ -21,12 +21,13 @@ void creaTessereIniziali(ListaTessere* lista) {
     }
 }
 
-/* Menu principale */
 void stampaMenu() {
     puts("\n=== MAHJONG SOLITAIRE ===");
     puts("1. Nuova partita");
     puts("2. Mossa (rimuovi coppia)");
     puts("3. Undo ultima mossa");
+    puts("4. Salva partita");
+    puts("5. Carica partita");
     puts("0. Esci");
     printf("> ");
 }
@@ -118,6 +119,23 @@ int main() {
                 break;
             }
 
+            case 4: {
+                if (salvaPartita("partita.bin", &tavolo, stackMosse))
+                    printf("Partita salvata correttamente.\n");
+                else
+                    printf("Errore nel salvataggio.\n");
+                break;
+            }
+
+            case 5: {
+                if (caricaPartita("partita.bin", &tavolo, &stackMosse)) {
+                    printf("Partita caricata correttamente.\n");
+                    partitaAttiva = true;
+                    stampaTavolo(&tavolo);
+                } else
+                    printf("Errore nel caricamento.\n");
+                break;
+            }
 
             case 0:
                 printf("Grazie per aver giocato!\n");

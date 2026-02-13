@@ -12,7 +12,7 @@ typedef enum {
 
 typedef struct {
     TipoTessera tipo;
-    int valore;      // 1 - 9
+    int valore;
     bool rimossa;
 } Tessera;
 

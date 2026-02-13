@@ -37,6 +37,12 @@
 		<Unit filename="ListaTessere.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="Salvataggio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Salvataggio.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="Stack.c">
 			<Option compilerVar="CC" />
 		</Unit>
