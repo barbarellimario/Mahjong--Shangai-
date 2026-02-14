@@ -1,13 +1,22 @@
 #include "Salvataggio.h"
 #include <stdio.h>
-#define DIM 10
-
+#include <stdlib.h>
 
 bool salvaPartita(const char* filename, Tavolo* tavolo, Stack stack) {
     FILE* f = fopen(filename, "wb");
     if (!f) return false;
 
-    fwrite(tavolo->celle, sizeof(Tessera*), DIM*DIM, f);
+    for (int i = 0; i < RIGHE; i++) {
+    for (int j = 0; j < COLONNE; j++) {
+
+        bool esiste = (tavolo->celle[i][j] != NULL);
+        fwrite(&esiste, sizeof(bool), 1, f);
+
+        if (esiste) {
+            fwrite(tavolo->celle[i][j], sizeof(Tessera), 1, f);
+        }
+    }
+}
 
     Stack temp = stack;
     while (temp != NULL) {
@@ -24,7 +33,20 @@ bool caricaPartita(const char* filename, Tavolo* tavolo, Stack* stack) {
     FILE* f = fopen(filename, "rb");
     if (!f) return false;
 
-    fread(tavolo->celle, sizeof(Tessera*), DIM*DIM, f);
+    for (int i = 0; i < RIGHE; i++) {
+    for (int j = 0; j < COLONNE; j++) {
+
+        bool esiste;
+        fread(&esiste, sizeof(bool), 1, f);
+
+        if (esiste) {
+            tavolo->celle[i][j] = malloc(sizeof(Tessera));
+            fread(tavolo->celle[i][j], sizeof(Tessera), 1, f);
+        } else {
+            tavolo->celle[i][j] = NULL;
+        }
+    }
+}
 
     distruggiStack(stack);
     *stack = creaStack();

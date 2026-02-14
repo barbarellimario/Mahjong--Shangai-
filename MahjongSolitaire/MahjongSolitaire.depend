@@ -8,16 +8,18 @@
 	<stdbool.h>
 	"Tessera.h"
 
-1770814657 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.h
+1771000175 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.h
 	<stdbool.h>
 
-1770814653 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\main.c
+1770999785 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"Tessera.h"
 	"ListaTessere.h"
 	"Tavolo.h"
+	"Stack.h"
+	"Salvataggio.h"
 
 1770814655 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.h
 	<stdbool.h>
@@ -29,7 +31,7 @@
 	<stdlib.h>
 	"Tessera.h"
 
-1770815968 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.c
+1770999785 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -40,5 +42,10 @@
 	"Stack.h"
 
 1770923543 c:\users\mario\documents\github\mahjong\mahjongsolitaire\stack.h
+	<stdbool.h>
+
+1771086242 c:\users\mario\documents\github\mahjong\mahjongsolitaire\salvataggio.h
+	"Tavolo.h"
+	"Stack.h"
 	<stdbool.h>
 
