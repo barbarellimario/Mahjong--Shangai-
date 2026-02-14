@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include "Tessera.h"
 #include "ListaTessere.h"
 #include "Tavolo.h"
@@ -35,6 +36,7 @@ void stampaMenu() {
 
 int main() {
 
+    srand(time(NULL));
     Tavolo tavolo;
     ListaTessere lista = creaLista();
     Stack stackMosse = creaStack();

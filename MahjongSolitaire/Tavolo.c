@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "Tavolo.h"
 
 void inizializzaTavolo(Tavolo* t) {
@@ -23,7 +22,6 @@ static Tessera* estraiDaLista(ListaTessere* lista) {
 }
 
 void distribuisciTessere(Tavolo* t, ListaTessere* lista) {
-    srand(time(NULL));
 
     int i, j;
     for (i = 0; i < RIGHE; i++) {
@@ -89,6 +87,9 @@ bool rimuoviCoppia(Tavolo* t, int x1, int y1, int x2, int y2) {
         return false;
 
     if (!tessereUguali(t1, t2))
+        return false;
+
+    if (x1==x2 && y1==y2)
         return false;
 
     t1->rimossa = true;
