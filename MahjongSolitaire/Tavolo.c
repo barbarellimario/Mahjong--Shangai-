@@ -97,3 +97,14 @@ bool rimuoviCoppia(Tavolo* t, int x1, int y1, int x2, int y2) {
     return true;
 }
 
+bool partitaFinita(const Tavolo* t) {
+    for (int i = 0; i < RIGHE; i++) {
+        for (int j = 0; j < COLONNE; j++) {
+            if (t->celle[i][j] != NULL &&
+                !t->celle[i][j]->rimossa) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

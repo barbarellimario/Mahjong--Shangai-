@@ -92,6 +92,11 @@ int main() {
 
                     push(&stackMosse, m);
                     printf("Coppia rimossa!\n");
+                    if (partitaFinita(&tavolo)) {
+                          printf("Complimenti! Hai completato la partita!\n");
+                          partitaAttiva = false;
+                          break;
+                    }
                 } else {
                     printf("Mossa non valida!\n");
                 }
