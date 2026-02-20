@@ -31,6 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Colori.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Gioco.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Gioco.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="ListaTessere.c">
 			<Option compilerVar="CC" />
 		</Unit>

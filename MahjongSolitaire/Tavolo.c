@@ -39,26 +39,28 @@ void distribuisciTessere(Tavolo* t, ListaTessere* lista) {
 }
 
 void stampaTavolo(const Tavolo* t) {
-    int i, j;
 
-    printf("\n   ");
+    printf("\n     ");
 
-    for (j = 0; j < COLONNE; j++) {
-        printf("%2d ", j + 1);
+    for (int j = 0; j < COLONNE; j++) {
+        printf("  %d   ", j + 1);
     }
     printf("\n");
 
-    for (i = 0; i < RIGHE; i++) {
+    printf("    ");
+    for (int j = 0; j < COLONNE; j++) {
+        printf("----- ");
+    }
+    printf("\n");
 
-        printf(" %2d ", i + 1);
+    for (int i = 0; i < RIGHE; i++) {
 
-        for (j = 0; j < COLONNE; j++) {
-            if (t->celle[i][j] == NULL || t->celle[i][j]->rimossa)
-                printf("   ");
-            else
-                stampaTessera(t->celle[i][j]);
-        }
+        printf("%d | ", i + 1);
 
+        for (int j = 0; j < COLONNE; j++) {
+             stampaTessera(t->celle[i][j]);
+             printf("|");
+    }
         printf("\n");
     }
 
@@ -108,4 +110,29 @@ bool partitaFinita(const Tavolo* t) {
         }
     }
     return true;
+}
+
+bool esistonoMossePossibili(const Tavolo* t) {
+    for (int i = 0; i < RIGHE; i++) {
+        for (int j = 0; j < COLONNE; j++) {
+
+            if (!tesseraLibera(t,i,j))
+                continue;
+
+            for (int x = 0; x < RIGHE; x++) {
+                for (int y = 0; y < COLONNE; y++) {
+
+                    if (i==x && j==y)
+                        continue;
+
+                    if (tesseraLibera(t,x,y) &&
+                        tessereUguali(t->celle[i][j],
+                                      t->celle[x][y])) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }

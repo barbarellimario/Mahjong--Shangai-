@@ -7,6 +7,8 @@
 #include "Tavolo.h"
 #include "Stack.h"
 #include "Salvataggio.h"
+#include "Gioco.h"
+#include "Colori.h"
 #define DIM 10
 
 void creaTessereIniziali(ListaTessere* lista) {
@@ -22,138 +24,115 @@ void creaTessereIniziali(ListaTessere* lista) {
     }
 }
 
-void stampaMenu() {
-    puts("\n=== MAHJONG SOLITAIRE ===");
-    puts("1. Nuova partita");
-    puts("2. Mossa (rimuovi coppia)");
-    puts("3. Undo ultima mossa");
-    puts("4. Salva partita");
-    puts("5. Carica partita");
-    puts("0. Esci");
-    printf("> ");
-}
-
 
 int main() {
 
     srand(time(NULL));
-    Tavolo tavolo;
+    Gioco gioco;
     ListaTessere lista = creaLista();
-    Stack stackMosse = creaStack();
 
-    bool partitaAttiva = false;
-    int scelta;
+    int sceltaModalita;
 
-    while (true) {
+    printf("=== MAHJONG SOLITAIRE 2.0 ===\n");
+    printf("1. Modalita Zen\n");
+    printf("2. Modalita Tempo (5 minuti)\n> ");
+    scanf("%d", &sceltaModalita);
 
-        stampaMenu();
-        scanf("%d", &scelta);
-        while (getchar() != '\n');
+    Modalita m = (sceltaModalita == 2) ? MOD_TEMPO : MOD_ZEN;
 
-        switch (scelta) {
+    inizializzaGioco(&gioco, m);
+    inizializzaTavolo(&gioco.tavolo);
 
-            case 1: {
-                inizializzaTavolo(&tavolo);
+    creaTessereIniziali(&lista);
+    distribuisciTessere(&gioco.tavolo, &lista);
 
-                if (lista != NULL)
-                    distruggiLista(&lista);
+    distruggiLista(&lista);
 
-                lista = creaLista();
-                creaTessereIniziali(&lista);
+    while (gioco.attiva) {
 
-                distribuisciTessere(&tavolo, &lista);
+        if (gioco.modalita == MOD_TEMPO &&
+            tempoTrascorso(&gioco) >= gioco.tempoLimite) {
 
-                distruggiStack(&stackMosse);
-                stackMosse = creaStack();
+            printf("\nTempo scaduto!\n");
+            break;
+        }
 
-                partitaAttiva = true;
-                stampaTavolo(&tavolo);
-                break;
-            }
+        stampaHUD(&gioco);
+        stampaTavolo(&gioco.tavolo);
 
-            case 2: {
-                if (!partitaAttiva) {
-                    printf("Nessuna partita attiva!\n");
+        if (!esistonoMossePossibili(&gioco.tavolo)) {
+            printf("Partita bloccata!\n");
+            break;
+        }
+
+        printf("1. Rimuovi coppia\n");
+        printf("2. Undo\n");
+        printf("3. Salva\n");
+        printf("4. Carica\n");
+        printf("0. Esci\n> ");
+
+        int cmd;
+        scanf("%d", &cmd);
+
+        if (cmd == 0)
+            break;
+
+        if (cmd == 1) {
+
+            int x1,y1,x2,y2;
+
+            printf("Prima tessera (riga colonna): ");
+            scanf("%d%d",&x1,&y1);
+            printf("Seconda tessera (riga colonna): ");
+            scanf("%d%d",&x2,&y2);
+
+            x1--; y1--; x2--; y2--;
+
+            if (rimuoviCoppia(&gioco.tavolo,x1,y1,x2,y2)) {
+
+                Mossa mossa = {x1,y1,x2,y2};
+                push(&gioco.stack,mossa);
+
+                aggiornaPunteggio(&gioco);
+
+                if (partitaFinita(&gioco.tavolo)) {
+                    printf("Hai vinto!\n");
                     break;
                 }
 
-                int x1, y1, x2, y2;
-                printf("Inserisci coordinate prima tessera (riga colonna): ");
-                scanf("%d%d", &x1, &y1);
-                printf("Inserisci coordinate seconda tessera (riga colonna): ");
-                scanf("%d%d", &x2, &y2);
-
-                x1--; y1--;
-                x2--; y2--;
-
-                if (rimuoviCoppia(&tavolo, x1, y1, x2, y2)) {
-
-                    Mossa m;
-                    m.x1 = x1; m.y1 = y1;
-                    m.x2 = x2; m.y2 = y2;
-
-                    push(&stackMosse, m);
-                    printf("Coppia rimossa!\n");
-                    if (partitaFinita(&tavolo)) {
-                          printf("Complimenti! Hai completato la partita!\n");
-                          partitaAttiva = false;
-                          break;
-                    }
-                } else {
-                    printf("Mossa non valida!\n");
-                }
-
-                stampaTavolo(&tavolo);
-                break;
+            } else {
+                printf("Mossa non valida!\n");
+                gioco.combo = 0;
             }
+        }
 
-            case 3: {
-                if (!partitaAttiva) {
-                    printf("Nessuna partita attiva!\n");
-                    break;
-                }
+        if (cmd == 2) {
+            Mossa m;
+            if (pop(&gioco.stack,&m)) {
 
-                Mossa m;
-                if (pop(&stackMosse, &m)) {
-                    tavolo.celle[m.x1][m.y1]->rimossa = false;
-                    tavolo.celle[m.x2][m.y2]->rimossa = false;
-                    printf("Ultima mossa annullata.\n");
-                } else {
-                    printf("Nessuna mossa da annullare.\n");
-                }
+                gioco.tavolo.celle[m.x1][m.y1]->rimossa=false;
+                gioco.tavolo.celle[m.x2][m.y2]->rimossa=false;
 
-                stampaTavolo(&tavolo);
-                break;
+                gioco.punteggio -= 5;
+                gioco.combo = 0;
             }
+        }
+        if (cmd == 3) {
+            if (salvaPartita("partita.bin", &gioco))
+                 printf("Partita salvata!\n");
+            else
+                 printf("Errore salvataggio!\n");
+        }
 
-            case 4: {
-                if (salvaPartita("partita.bin", &tavolo, stackMosse))
-                    printf("Partita salvata correttamente.\n");
-                else
-                    printf("Errore nel salvataggio.\n");
-                break;
-            }
-
-            case 5: {
-                if (caricaPartita("partita.bin", &tavolo, &stackMosse)) {
-                    printf("Partita caricata correttamente.\n");
-                    partitaAttiva = true;
-                    stampaTavolo(&tavolo);
-                } else
-                    printf("Errore nel caricamento.\n");
-                break;
-            }
-
-            case 0:
-                printf("Grazie per aver giocato!\n");
-                distruggiLista(&lista);
-                distruggiStack(&stackMosse);
-                exit(0);
-
-            default:
-                printf("Comando non valido!\n");
+        if (cmd == 4) {
+            if (caricaPartita("partita.bin", &gioco))
+                 printf("Partita caricata!\n");
+            else
+                 printf("Errore caricamento!\n");
         }
     }
 
+    printf("\nPunteggio finale: %d\n", gioco.punteggio);
+    distruggiStack(&gioco.stack);
     return 0;
 }

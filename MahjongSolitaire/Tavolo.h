@@ -18,5 +18,6 @@ void stampaTavolo(const Tavolo* t);
 bool tesseraLibera(const Tavolo* t, int x, int y);
 bool rimuoviCoppia(Tavolo* t, int x1, int y1, int x2, int y2);
 bool partitaFinita(const Tavolo* t);
+bool esistonoMossePossibili(const Tavolo* t);
 
 #endif // TAVOLO_H_INCLUDED

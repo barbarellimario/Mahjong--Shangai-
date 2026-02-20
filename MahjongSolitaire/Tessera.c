@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Tessera.h"
+#include "Colori.h"
 
 Tessera* creaTessera(TipoTessera tipo, int valore) {
     Tessera* t = (Tessera*)malloc(sizeof(Tessera));
@@ -14,20 +15,34 @@ Tessera* creaTessera(TipoTessera tipo, int valore) {
 
 
 void stampaTessera(const Tessera* t) {
+
     if (t == NULL || t->rimossa) {
-        printf("   ");
+        printf("     ");
         return;
     }
 
     char simbolo;
+    const char* colore;
+
     switch (t->tipo) {
-        case BAMBOO: simbolo = 'B'; break;
-        case CERCHI: simbolo = 'C'; break;
-        case CARATTERI: simbolo = 'K'; break;
-        default: simbolo = '?';
+        case BAMBOO:
+            simbolo = 'B';
+            colore = VERDE;
+            break;
+        case CERCHI:
+            simbolo = 'C';
+            colore = BLU;
+            break;
+        case CARATTERI:
+            simbolo = 'K';
+            colore = ROSSO;
+            break;
+        default:
+            simbolo = '?';
+            colore = RESET;
     }
 
-    printf("%c%d ", simbolo, t->valore);
+    printf("%s[%c%d] %s", colore, simbolo, t->valore, RESET);
 }
 
 

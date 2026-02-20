@@ -11,30 +11,33 @@
 1771000175 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.h
 	<stdbool.h>
 
-1771088091 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\main.c
+1771578578 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
+	<time.h>
 	"Tessera.h"
 	"ListaTessere.h"
 	"Tavolo.h"
 	"Stack.h"
 	"Salvataggio.h"
+	"Gioco.h"
+	"Colori.h"
 
-1771087269 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.h
+1771577226 c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.h
 	<stdbool.h>
 	"Tessera.h"
 	"ListaTessere.h"
 
-1770814656 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.c
+1771577733 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tessera.c
 	<stdio.h>
 	<stdlib.h>
 	"Tessera.h"
+	"Colori.h"
 
-1771087269 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.c
+1771577926 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\tavolo.c
 	<stdio.h>
 	<stdlib.h>
-	<time.h>
 	"Tavolo.h"
 
 1770923543 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\stack.c
@@ -44,13 +47,25 @@
 1770923543 c:\users\mario\documents\github\mahjong\mahjongsolitaire\stack.h
 	<stdbool.h>
 
-1771086242 c:\users\mario\documents\github\mahjong\mahjongsolitaire\salvataggio.h
-	"Tavolo.h"
-	"Stack.h"
+1771578578 c:\users\mario\documents\github\mahjong\mahjongsolitaire\salvataggio.h
+	"Gioco.h"
 	<stdbool.h>
 
-1771086308 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\salvataggio.c
+1771578578 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\salvataggio.c
 	"Salvataggio.h"
 	<stdio.h>
 	<stdlib.h>
+
+1771577097 source:c:\users\mario\documents\github\mahjong\mahjongsolitaire\gioco.c
+	<stdio.h>
+	<time.h>
+	"Gioco.h"
+	"Colori.h"
+
+1771577097 c:\users\mario\documents\github\mahjong\mahjongsolitaire\gioco.h
+	<time.h>
+	"Tavolo.h"
+	"Stack.h"
+
+1771577097 c:\users\mario\documents\github\mahjong\mahjongsolitaire\colori.h
 
