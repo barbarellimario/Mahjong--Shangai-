@@ -73,63 +73,70 @@ int main() {
 
         int cmd;
         scanf("%d", &cmd);
+    switch(cmd) {
 
-        if (cmd == 0)
-            break;
 
-        if (cmd == 1) {
+    case 1: {
+        int x1, y1, x2, y2;
 
-            int x1,y1,x2,y2;
+        printf("Prima tessera (riga colonna): ");
+        scanf("%d%d", &x1, &y1);
+        printf("Seconda tessera (riga colonna): ");
+        scanf("%d%d", &x2, &y2);
 
-            printf("Prima tessera (riga colonna): ");
-            scanf("%d%d",&x1,&y1);
-            printf("Seconda tessera (riga colonna): ");
-            scanf("%d%d",&x2,&y2);
+        x1--; y1--; x2--; y2--;
 
-            x1--; y1--; x2--; y2--;
+        if (rimuoviCoppia(&gioco.tavolo, x1, y1, x2, y2)) {
+            Mossa mossa = {x1, y1, x2, y2};
+            push(&gioco.stack, mossa);
 
-            if (rimuoviCoppia(&gioco.tavolo,x1,y1,x2,y2)) {
+            aggiornaPunteggio(&gioco);
 
-                Mossa mossa = {x1,y1,x2,y2};
-                push(&gioco.stack,mossa);
-
-                aggiornaPunteggio(&gioco);
-
-                if (partitaFinita(&gioco.tavolo)) {
-                    printf("Hai vinto!\n");
-                    break;
-                }
-
-            } else {
-                printf("Mossa non valida!\n");
-                gioco.combo = 0;
+            if (partitaFinita(&gioco.tavolo)) {
+                printf("Hai vinto!\n");
+                break;
             }
-        }
 
-        if (cmd == 2) {
-            Mossa m;
-            if (pop(&gioco.stack,&m)) {
-
-                gioco.tavolo.celle[m.x1][m.y1]->rimossa=false;
-                gioco.tavolo.celle[m.x2][m.y2]->rimossa=false;
-
-                gioco.punteggio -= 5;
-                gioco.combo = 0;
-            }
+        } else {
+            printf("Mossa non valida!\n");
+            gioco.combo = 0;
         }
-        if (cmd == 3) {
-            if (salvaPartita("partita.bin", &gioco))
-                 printf("Partita salvata!\n");
-            else
-                 printf("Errore salvataggio!\n");
-        }
+        break;
+    }
 
-        if (cmd == 4) {
-            if (caricaPartita("partita.bin", &gioco))
-                 printf("Partita caricata!\n");
-            else
-                 printf("Errore caricamento!\n");
+    case 2: {
+        Mossa m;
+        if (pop(&gioco.stack, &m)) {
+            gioco.tavolo.celle[m.x1][m.y1]->rimossa = false;
+            gioco.tavolo.celle[m.x2][m.y2]->rimossa = false;
+
+            gioco.punteggio -= 5;
+            gioco.combo = 0;
         }
+        break;
+    }
+
+    case 3:
+        if (salvaPartita("partita.bin", &gioco))
+            printf("Partita salvata!\n");
+        else
+            printf("Errore salvataggio!\n");
+        break;
+
+    case 4:
+        if (caricaPartita("partita.bin", &gioco))
+            printf("Partita caricata!\n");
+        else
+            printf("Errore caricamento!\n");
+        break;
+    case 0:
+        return 0;
+        break;
+
+    default:
+        printf("Comando non valido!\n");
+        break;
+}
     }
 
     printf("\nPunteggio finale: %d\n", gioco.punteggio);
